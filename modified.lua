@@ -83,7 +83,7 @@ local function processListingInfo(uid, gems, item, version, shiny, amount, bough
                 ['fields'] = {
                     {
                         ['name'] = "__Price:__",
-                        ['value'] = string.format("GEM'S: %s", tostring(gemamount):reverse():gsub("%d%d%d", "%1,"):reverse()), .. " 💎",
+                        ['value'] = string.format("GEM'S: %s", tostring(gems):reverse():gsub("%d%d%d", "%1,"):reverse()), .. " 💎",
                     },
                     {
                         ['name'] = "__Bought from:__",
@@ -95,7 +95,7 @@ local function processListingInfo(uid, gems, item, version, shiny, amount, bough
                     },
                     {
                         ['name'] = "__Remaining gems:__",
-                        ['value'] = string.format("GEM'S: %s", tostring(gemamount):reverse():gsub("%d%d%d", "%1,"):reverse()), .. " 💎",
+                        ['value'] = string.format("GEM'S: %s", tostring(gems):reverse():gsub("%d%d%d", "%1,"):reverse()), .. " 💎",
                     },      
                     {
                         ['name'] = "__PetID:__",
