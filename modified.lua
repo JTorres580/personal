@@ -198,7 +198,7 @@ end
 
 Booths_Broadcast.OnClientEvent:Connect(function(username, message)
     local playerID = message['PlayerID']
-    if type(message) == "table" then
+    if type(message) == "table" and message['PlayerID'] then
         local listing = message["Listings"]
         for key, value in pairs(listing) do
             if type(value) == "table" then
