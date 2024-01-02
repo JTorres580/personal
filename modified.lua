@@ -135,11 +135,19 @@ local function checklisting(uid, gems, item, version, shiny, amount, username, p
     local Library = require(rs:WaitForChild('Library'))
     local purchase = rs.Network.Booths_RequestPurchase
     gems = tonumber(gems)
+    local ping = false
+    snipeNormal = false
     local type = {}
     pcall(function()
         type = Library.Directory.Pets[item]
     end)
-
+	
+    if amount == nil then
+        amount = 1
+    end
+	
+    local price = gems / amount
+	
     if  type.huge and gems <= 1000000 then
         local boughtPet, boughtMessage = purchase:InvokeServer(playerid, uid)
         if boughtPet == true then
@@ -257,17 +265,23 @@ local function jumpToServer()
     ts:TeleportToPlaceInstance(15502339080, servers[math.random(1, randomCount)], game:GetService("Players").LocalPlayer) 
 end
 
+Players.PlayerRemoving:Connect(function(player)
+    PlayerInServer = #getPlayers
+    if PlayerInServer < 10 then
+        jumpToServer()
+    end
+end) 
+
 Players.PlayerAdded:Connect(function(player)
     for i = 1,#alts do
-        if  player.Name == alts[i] and alts[i] ~= Players.LocalPlayer.Name then
+        if player.Name == alts[i] and alts[i] ~= Players.LocalPlayer.Name then
             jumpToServer()
         end
     end
 end) 
 
-game:GetService("RunService").Stepped:Connect(function()
-    PlayerInServer = #getPlayers
-    if PlayerInServer < 25 or math.floor(os.clock() - osclock) >= math.random(900, 1200) then
+while task.wait(1) do
+    if math.floor(os.clock() - osclock) >= math.random(900, 1200) then
         jumpToServer()
     end
-end)
+end
