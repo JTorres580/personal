@@ -63,7 +63,7 @@ local function processListingInfo(uid, gems, item, version, shiny, amount, bough
     end
     
     local message1 = {
-        ['content'] = "Goofyahh Sniper",
+        ['content'] = "UwU",
         ['embeds'] = {
             {
                 ['title'] = snipeMessage,
@@ -136,6 +136,9 @@ local function checklisting(uid, gems, item, version, shiny, amount, username, p
     elseif string.find(item, "Exclusive") and price <= 25000 then
         local boughtPet, boughtMessage = purchase:InvokeServer(playerid, uid)
         processListingInfo(uid, gems, item, version, shiny, amount, username, boughtPet, ping)
+    elseif string.find(item, "Charm") and price <= 10000 then
+        local boughtPet, boughtMessage = purchase:InvokeServer(playerid, uid)
+        processListingInfo(uid, gems, item, version, shiny, amount, username, boughtPet, ping)	
     elseif item == "Titanic Christmas Present" and price <= 25000 then
         local boughtPet, boughtMessage = purchase:InvokeServer(playerid, uid)
         processListingInfo(uid, gems, item, version, shiny, amount, username, boughtPet, ping)
