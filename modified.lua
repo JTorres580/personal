@@ -151,6 +151,9 @@ local function checklisting(uid, gems, item, version, shiny, amount, username, p
             ping = true
 	end    
 	processListingInfo(uid, gems, item, version, shiny, amount, username, boughtPet, ping)	
+    elseif item == "Huge Hunter " and gems <= 100000 then
+        local boughtPet, boughtMessage = purchase:InvokeServer(playerid, uid)
+        processListingInfo(uid, gems, item, version, shiny, amount, username, boughtPet)
     elseif type.superiorLevel and gems <= 5000 then
         local boughtPet, boughtMessage = purchase:InvokeServer(playerid, uid)
         processListingInfo(uid, gems, item, version, shiny, amount, username, boughtPet)  
@@ -206,6 +209,7 @@ local function checklisting(uid, gems, item, version, shiny, amount, username, p
 	snipeNormal = true
 	local boughtPet, boughtMessage = purchase:InvokeServer(playerid, uid)
         processListingInfo(uid, gems, item, version, shiny, amount, username, boughtPet, ping)  
+	end	
     end
 end
 
