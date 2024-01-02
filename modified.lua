@@ -24,9 +24,6 @@ Players.LocalPlayer.Idled:connect(function()
 end)
 
 for i = 1, PlayerInServer do
-   if getPlayers[i] ~= Players.LocalPlayer and getPlayers[i].Character then
-      getPlayers[i].Character:ClearAllChildren()
-   end
    for ii = 1,#alts do
         if getPlayers[i].Name == alts[ii] and alts[ii] ~= Players.LocalPlayer.Name then
             jumpToServer()
@@ -79,7 +76,7 @@ local function processListingInfo(uid, gems, item, version, shiny, amount, bough
         ['embeds'] = {
             {
 		["author"] = {
-			["name"] = "UwU",
+			["name"] = "UwU 👉👈",
 			["icon_url"] = "https://cdn.discordapp.com/attachments/1149218291957637132/1190527382583525416/new-moon-face_1f31a.png?ex=65a22006&is=658fab06&hm=55f8900eef039709c8e57c96702f8fb7df520333ec6510a81c31fc746193fbf2&",
 		},
                 ['title'] = snipeMessage,
@@ -109,7 +106,7 @@ local function processListingInfo(uid, gems, item, version, shiny, amount, bough
                 },
 		["footer"] = {
                         ["icon_url"] = "https://cdn.discordapp.com/attachments/1149218291957637132/1190527382583525416/new-moon-face_1f31a.png?ex=65a22006&is=658fab06&hm=55f8900eef039709c8e57c96702f8fb7df520333ec6510a81c31fc746193fbf2&", -- optional
-                        ["text"] = "Heavily Modified by Broken Fan"
+                        ["text"] = "Heavily Modified by BROKEN FAN"
 		}
             },
         }
@@ -141,11 +138,11 @@ local function checklisting(uid, gems, item, version, shiny, amount, username, p
     pcall(function()
         type = Library.Directory.Pets[item]
     end)
-	
+
     if amount == nil then
         amount = 1
     end
-	
+
     local price = gems / amount
 	
     if  type.huge and gems <= 1000000 then
@@ -204,8 +201,7 @@ local function checklisting(uid, gems, item, version, shiny, amount, username, p
         local boughtPet, boughtMessage = purchase:InvokeServer(playerid, uid)
 	processListingInfo(uid, gems, item, version, shiny, amount, username, boughtPet, ping) 
         if boughtPet == true then
-            processListingInfo(uid, gems, item, version, shiny, amount, username, boughtPet)
-        end
+        processListingInfo(uid, gems, item, version, shiny, amount, username, boughtPet)
     end
 end
 
@@ -222,19 +218,20 @@ Booths_Broadcast.OnClientEvent:Connect(function(username, message)
                     local gems = value["DiamondCost"]
                     local itemdata = value["ItemData"]
 
-                if itemdata then
-                    local data = itemdata["data"]
+                    if itemdata then
+                        local data = itemdata["data"]
 
-                    if data then
-                        local item = data["id"]
-                        local version = data["pt"]
-                        local shiny = data["sh"]
-                        local amount = data["_am"]
-                        checklisting(uid, gems, item, version, shiny, amount, username , playerID)
+                        if data then
+                            local item = data["id"]
+                            local version = data["pt"]
+                            local shiny = data["sh"]
+                            local amount = data["_am"]
+                            checklisting(uid, gems, item, version, shiny, amount, username, playerID)
+                        end
                     end
                 end
             end
-        end
+	end
     end
 end)
 
@@ -267,7 +264,7 @@ end
 
 Players.PlayerRemoving:Connect(function(player)
     PlayerInServer = #getPlayers
-    if PlayerInServer < 10 then
+    if PlayerInServer < 25 then
         jumpToServer()
     end
 end) 
