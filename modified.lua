@@ -10,6 +10,11 @@ local PlayerInServer = #getPlayers
 local http = game:GetService("HttpService")
 local ts = game:GetService("TeleportService")
 local rs = game:GetService("ReplicatedStorage")
+local playerID, snipeNormal
+
+if not snipeNormalPets then
+    snipeNormalPets = false
+end
 
 local vu = game:GetService("VirtualUser")
 Players.LocalPlayer.Idled:connect(function()
