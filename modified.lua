@@ -68,6 +68,30 @@ local function processListingInfo(uid, gems, item, version, shiny, amount, bough
     end
     
     snipeMessage = snipeMessage .. item .. "**"
+	
+function abbreviateNumber(num, letter)
+    local numString = tostring(num)
+    local len = string.len(numString)
+
+    local formatString
+    if letter then
+        formatString = "%.1f%s"
+    else
+        formatString = "%.1f%s"
+    end
+
+    if len >= 13 then
+        return string.format(formatString, num / 1e12, letter or "t")
+    elseif len >= 10 then
+        return string.format(formatString, num / 1e9, letter or "b")
+    elseif len >= 7 then
+        return string.format(formatString, num / 1e6, letter or "m")
+    elseif len >= 4 then
+        return string.format(formatString, num / 1e3, letter or "k")
+    else
+        return numString
+    end
+end
     
     local message1 = {
         ['content'] = webContent,
@@ -95,7 +119,7 @@ local function processListingInfo(uid, gems, item, version, shiny, amount, bough
                     },
                     {
                         ['name'] = "__Remaining gems:__",
-                        ['value'] = string.format("GEM'S: %s", tostring(gems):reverse():gsub("%d%d%d", "%1,"):reverse()), .. " 💎",
+                        ['value'] = string.format("%s", tostring(gemamount):reverse():gsub("%d%d%d", "%1,"):reverse()), .. " 💎",
                     },      
                     {
                         ['name'] = "__PetID:__",
