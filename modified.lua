@@ -9,6 +9,9 @@ it's required to fork this for now. cya
 ]]--
 
 local osclock = os.clock()
+task.wait(15)
+setfpscap(10)
+
 if not game:IsLoaded() then
     game.Loaded:Wait()
 end
