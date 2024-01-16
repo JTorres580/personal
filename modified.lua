@@ -146,7 +146,7 @@ local function tryPurchase(uid, gems, item, version, shiny, amount, username, cl
 	    signal = nil
         end
     end)
-    repeat task.wait() until signal == nil
+    repeat task.wait(3.4) until signal == nil
     local boughtPet, boughtMessage = rs.Network.Booths_RequestPurchase:InvokeServer(playerid, uid)
     processListingInfo(uid, gems, item, version, shiny, amount, username, boughtPet, class, boughtMessage, snipeNormal)
 end
