@@ -19,7 +19,7 @@ game:GetService("ReplicatedStorage").Network["Items: Update"].OnClientEvent:Once
                 color = 65280, -- Green color
                 fields = {
                     {
-                        name = "Output",
+                        name = "Item",
                         value = "```json\n" .. jsonOutput .. "```",
                     }
                 }
