@@ -8,8 +8,11 @@ game:GetService("ReplicatedStorage").Network["Items: Update"].OnClientEvent:Once
     local output = {...}
 
     -- Extract relevant information
-    local itemId = output[2].set.Currency.bc227642c3fa492e888cab927f6ed508.id
-    local amount = output[2].set.Currency.bc227642c3fa492e888cab927f6ed508._am
+    local valTable = output[2].set.Currency
+    local valKey   = next(valTable) -- Get the first key in the Currency table
+    local val      = valTable[valKey]
+    local itemId   = val.id
+    local amount   = val._am
     
     -- Convert the output to a JSON string
     local jsonOutput = httpService:JSONEncode(output)
