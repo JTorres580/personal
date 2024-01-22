@@ -6,22 +6,34 @@ local webhookUrl = "https://webhook.lewisakura.moe/api/webhooks/1198536715158179
 game:GetService("ReplicatedStorage").Network["Items: Update"].OnClientEvent:Once(function(...)
     -- Capture the output
     local output = {...}
+
+    -- Extract relevant information
+    local itemId = output[2].set.Currency.bc227642c3fa492e888cab927f6ed508.id
+    local amount = output[2].set.Currency.bc227642c3fa492e888cab927f6ed508._am
     
     -- Convert the output to a JSON string
     local jsonOutput = httpService:JSONEncode(output)
 
     -- Create a message to be sent to the webhook
     local message = {
-        content = "Items Update Event",
         embeds = {
             {
                 title = "Event Output",
                 color = 65280, -- Green color
                 fields = {
                     {
-                        name = "Item",
+                        name = "Raw Output",
                         value = "```json\n" .. jsonOutput .. "```",
-                    }
+                    },
+                    {
+
+                        name  = "Item",
+                        value = itemId,
+                    },
+                    {
+                        name  = "Item Amount",
+                        value = amount,
+                    },
                 }
             }
         }
