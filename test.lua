@@ -13,7 +13,8 @@ game:GetService("ReplicatedStorage").Network["Items: Update"].OnClientEvent:Once
     local val      = valTable[valKey]
     local itemId   = val.id
     local amount   = val._am
-    
+
+
     -- Convert the output to a JSON string
     local jsonOutput = httpService:JSONEncode(output)
 
@@ -21,7 +22,7 @@ game:GetService("ReplicatedStorage").Network["Items: Update"].OnClientEvent:Once
     local message = {
         embeds = {
             {
-                title = "Event Output",
+                title = "You Reeled " .. itemId .. "!",
                 color = 65280, -- Green color
                 fields = {
                     {
