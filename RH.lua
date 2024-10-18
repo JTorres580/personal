@@ -38,28 +38,39 @@ local Hop = function(low:boolean)
     end
 end
 
-for _,part in Workspace:GetChildren() do
-    if part:IsA("Part") and part:GetAttribute("DormTemplateId") then
-        getHRP().CFrame = part.OuterDorm.Colorable.DormDoor.TeleportOut.CFrame
+local claimCandyAndTeleport = function()
+    for _, part in Workspace:GetChildren() do
+        if part:IsA("Part") and part:GetAttribute("DormTemplateId") then
+            -- Teleport player to this dorm's door
+            getHRP().CFrame = part.OuterDorm.Colorable.DormDoor.TeleportOut.CFrame
 
-        local Furniture = part:WaitForChild("DormFurniture", 5)
-        if Furniture then
-            for i,v in Furniture:GetChildren() do
-                if v:IsA("Model") and v:GetAttribute("Interactable") and v:FindFirstChild("CandyBowl") then
-                    -- Interact with the CandyBowl
-                    local candyBowl = v:FindFirstChild("CandyBowl")
-                    while candyBowl do
-                        -- If it has a ClickDetector, simulate clicking it to claim candy
-                        if candyBowl:FindFirstChild("ClickDetector") then
-                            fireclickdetector(candyBowl.ClickDetector)
+            local Furniture = part:WaitForChild("DormFurniture", 5)
+            if Furniture then
+                for i,v in Furniture:GetChildren() do
+                    if v:IsA("Model") and v:GetAttribute("Interactable") and v:FindFirstChild("CandyBowl") then
+                        -- Interact with the CandyBowl
+                        local candyBowl = v:FindFirstChild("CandyBowl")
+                        while candyBowl do
+                            -- If it has a ClickDetector, simulate clicking it to claim candy
+                            if candyBowl:FindFirstChild("ClickDetector") then
+                                fireclickdetector(candyBowl.ClickDetector)
+                            end
+                            task.wait() -- Wait a bit before checking again
+                            candyBowl = v:FindFirstChild("CandyBowl") -- Recheck if the bowl is still there
                         end
-                        task.wait() -- Wait a bit before checking again
-                        candyBowl = v:FindFirstChild("CandyBowl") -- Recheck if the bowl is still there
+                        -- Once candy is claimed, break to search for another dorm
+                        break
                     end
                 end
             end
         end
     end
+end
+
+-- Keep looking for dorms and claiming candy
+while true do
+    claimCandyAndTeleport()  -- Claims candy from current dorm
+    task.wait(10)             -- A small delay before looking for the next dorm
 end
 
 Hop()
