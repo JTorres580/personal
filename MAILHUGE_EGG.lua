@@ -23,7 +23,7 @@ Mail_Item = function()
                 ConfigMatch = true
             else
                 for _, CustomItem in pairs(getgenv().Mailing.Mail_Items) do
-                    if CustomItem.Item == v.id and CustomItem.pt == v.pt and CustomItem.sh == v.sh and CustomItem.tn == v.tn and CustomItem.Class == Class and (CustomItem.MinAmount or 0) >= (v._am or 1) then
+                    if CustomItem.Item == v.id and CustomItem.pt == v.pt and CustomItem.sh == v.sh and CustomItem.tn == v.tn and CustomItem.Class == Class and (CustomItem.MinAmount or 0) <= (v._am or 1) then
                         ConfigMatch = true
                         break
                     end
