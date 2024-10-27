@@ -3,6 +3,8 @@ getgenv().Mailing = {
     Mail_Items = {
         {Class = "Lootbox", Item = "Hype Egg", pt = nil, sh = nil, tn = nil},
         {Class = "Egg", Item = "Huge Machine Egg 4", pt = nil, sh = nil, tn = nil},
+        {Class = "Misc", Item = "Pumpkin", pt = nil, sh = nil, tn = nil, MinAmount = 50 }
+        {Class = "Misc", Item = "Halloween Mask", pt = nil, sh = nil, tn = nil, MinAmount = 100 }
     }
 }
 
@@ -23,7 +25,7 @@ Mail_Item = function()
                 ConfigMatch = true
             else
                 for _, CustomItem in pairs(getgenv().Mailing.Mail_Items) do
-                    if CustomItem.Item == v.id and CustomItem.pt == v.pt and CustomItem.sh == v.sh and CustomItem.tn == v.tn and CustomItem.Class == Class then
+                    if CustomItem.Item == v.id and CustomItem.pt == v.pt and CustomItem.sh == v.sh and CustomItem.tn == v.tn and CustomItem.Class == Class and (CustomItem.MinAmount or 0) >= (v._am or 1) then
                         ConfigMatch = true
                         break
                     end
