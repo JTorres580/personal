@@ -3,8 +3,9 @@ getgenv().Mailing = {
     Mail_Items = {
         {Class = "Lootbox", Item = "Hype Egg", pt = nil, sh = nil, tn = nil},
         {Class = "Egg", Item = "Huge Machine Egg 4", pt = nil, sh = nil, tn = nil},
-         {Class = "Misc", Item = "Pumpkin", pt = nil, sh = nil, tn = nil, MinAmount = 50 },
-        {Class = "Misc", Item = "Halloween Mask", pt = nil, sh = nil, tn = nil, MinAmount = 100 }
+        {Class = "Misc", Item = "Pumpkin", pt = nil, sh = nil, tn = nil, MinAmount = 50 },
+        {Class = "Misc", Item = "Halloween Mask", pt = nil, sh = nil, tn = nil, MinAmount = 100 },
+        {Class = "Misc", Item = "Candy Corn", pt = nil, sh = nil, tn = nil, MinAmount = 100 }
     }
 }
 
