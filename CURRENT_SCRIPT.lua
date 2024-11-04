@@ -1,24 +1,3 @@
-script_key="KYrPHsugHPgOxEcASTsDbAeAJUYLfYHy";
--- Please Read FAQ channel for more info! Make sure you understand these parameters
--- If not sure ask info in channel
-_G.GPROGRESS_MODE = "Hybrid"
-_G.GRANK_TO = 2
-_G.GWAIT_AT_GATES_TILL_RANK = 2 -- default value in script is 6. This means when in Hybrid mode, it will wait at the gates to gather coins for hatching-quests untill you are rank 6. Once you are rank 6 it will not wait at gates anymore & only start hatching again when you reach final area defined in ZONE_TO.
-_G.GREBIRTH_TO = 10 -- number, limits the amount of rebirths
-_G.GGFX_MODE = 1
-_G.GZONE_TO = 999 -- ONLY increase above 99 to go to world2, only when 100% sure, there is no way back for the "best zone" quests etc. 
-_G.GMAX_EGG_SLOTS = 99
-_G.GMAX_EQUIP_SLOTS = 99
-_G.GHOLD_GIFTS = false
-_G.GHOLD_BUNDLES = false
-_G.GMAX_ZONE_UPGRADE_COST = 20000
-_G.GIGNORE_SLEDRACE = false
-_G.GFRUITS = {"Apple","Banana","Orange","Rainbow"}
-_G.GPOTIONS = {"Damage","Coins","The Cocktail","Treasure Hunter","Walkspeed","Diamonds"}
-_G.GPOTIONS_MAX_TIER = 8
-_G.GIGNORE_VIP = false
-_G.GET_RNG_PETS = false
-_G.GENCHANTS = {"Huge Hunter", "Coins", "Huge Hunter", "Strong Pets", "Criticals"}
-_G.GWEBHOOK_USERID = "278707419536687105"
-_G.GWEBHOOK_LINK = "https://webhook.lewisakura.moe/api/webhooks/1248856141044125708/BN1uy53rJHEdQJHKJyBUfDS1JWACTm_anpGDaoJc3qMGS0RCwKgWJMemNqZDAwzSglqs"
-loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/34915da4ad87a5028e1fd64efbe3543f.lua"))()
+script_key="zvIcLurMXyhzeYiVIEJMDrrtEoUfZLxP";
+getgenv().LoadSettings = {["ExclusiveDaycare"] = {["UseMachine"] = false, ["Equips"] = false, ["DayTier"] = 3}, ["Charms"] = {["Start"] = false, ["Mode"] = "Add", ["Charm"] = "", ["Amount"] = 1}, ["Lootboxes"] = {["OpenGiftbags"] = true, ["Lootboxes"] = {}, ["DisableConfetti"] = true, ["OpenLootboxes"] = false, ["Giftbags"] = {"Charm Stone", "Enchant Bundle", "Large Enchant Bundle", "Flag Bundle", "Large Gift Bag", "Rainbow Mini Chest", "Large Potion Bundle", "Toy Bundle", "Gift Bag", "Fruit Bundle", "Mini Chest", "Potion Bundle", "Diamond Gift Bag"}}, ["UIScale"] = 0.75, ["Potions"] = {["PotionsToUse"] = {"Coins", "Treasure Hunter", "Walkspeed", "Diamonds", "Damage", "The Cocktail"}, ["MaxTier"] = 11, ["UsePotions"] = true, ["UpgradePotions"] = false}, ["Optimization"] = {["Map"] = false, ["JoinInstance"] = false, ["Instance"] = "None", ["Breakables"] = true, ["Orbs"] = true, ["Pets"] = true, ["Ultimate"] = true}, ["Rainbow"] = {["UseMachine"] = false}, ["LoadSettings"] = true, ["Machines"] = {["Golden"] = {["PetsToGolden"] = {}, ["UseMachine"] = false}, ["UseBestEgg"] = false, ["Rainbow"] = {["UseMachine"] = false, ["PetsToRainbow"] = {}}, ["Fuse"] = {["UseMachine"] = false, ["PetsToFuse"] = {}}, ["UseVouchers"] = false, ["VouchersToUse"] = {}}, ["Hatching"] = {["Start"] = true, ["Mailbox"] = {["Send"] = true, ["Player"] = "JSK_Streams"}, ["Egg"] = {["id"] = "0 - Best Unlocked Egg", ["type"] = "Normal"}, ["HatchAmount"] = 103}, ["Worlds"] = {["Fishing"] = {["Start"] = false, ["BuyRods"] = false}, ["Garden"] = {["Start"] = false, ["Seed"] = "None"}, ["Digging"] = {["Start"] = false, ["BuyShovels"] = false}, ["Treehouse"] = false}, ["Webhooks"] = {["Statistics"] = {["Send"] = true, ["Minutes"] = 20, ["Webhook"] = "https://webhook.lewisakura.moe/api/webhooks/1248856141044125708/BN1uy53rJHEdQJHKJyBUfDS1JWACTm_anpGDaoJc3qMGS0RCwKgWJMemNqZDAwzSglqs", ["ShowUsername"] = true}, ["DiscordUserId"] = "278707419536687105", ["Daycare"] = {["Send"] = true, ["PingUser"] = true, ["Webhook"] = "https://webhook.lewisakura.moe/api/webhooks/1297060348331032707/EhTnWmoIkQ_Ud6EnVd7vp4EL888MQD9BAPFWF7TD_YW0Fc7oqrEHaEll9z-m4PXkSL3s", ["ShowUsername"] = true}, ["Hatching"] = {["Rarities"] = {}, ["Webhook"] = "https://webhook.lewisakura.moe/api/webhooks/1248523147507142656/Pk0BBjxWtIjx_1WtUaVFBzVqCg8mx3KNcNe4zMU3754EtaBOOLHc_bDb5rU46YU2a0g-", ["Send"] = true, ["PingUser"] = true, ["ShowUsername"] = true}}, ["Events"] = {["CandyGifts"] = false, ["EventUpgrades"] = false, ["MinimumCubes"] = 1000, ["TrickOrTreat"] = false, ["Neighborhoods"] = {}, ["AutoCatchPets"] = false}, ["Farming"] = {["AreaEvents"] = {["Event"] = "", ["Spawn"] = false}, ["IgnoreElementalChest"] = true, ["Zone"] = "0 - Current Zone", ["Progress"] = true, ["UseUltimate"] = false, ["MaxEggSlots"] = 4, ["PetsPerBreakable"] = 3, ["Flags"] = {["Flag"] = "Fortune Flag", ["Place"] = false, ["Amount"] = 1}, ["BuyEggSlots"] = false, ["Fruits"] = {["Fruits"] = {"Watermelon", "Shiny Watermelon", "Candycane", "Apple", "Shiny Apple", "Rainbow", "Pineapple", "Shiny Pineapple", "Orange", "Shiny Orange", "Banana", "Shiny Banana"}, ["Use"] = true}, ["Sprinklers"] = {["Place"] = false, ["Amount"] = 1}, ["Start"] = true, ["Buffs"] = {["Buffs"] = {"Toy Ball", "Christmas Cookie", "Hot Cocoa", "Glitched Drive", "Squeaky Toy", "Toy Bone"}, ["Use"] = true}, ["MaxPetSlots"] = 4, ["BuyPetSlots"] = false}, ["ForceVIP"] = false, ["Golden"] = {["UseMachine"] = false}, ["Daycare"] = {["UseMachine"] = true}, ["KeysVouchers"] = {["UseTickets"] = true, ["CombineKeys"] = false, ["UseSecretKeys"] = false, ["SkipSpinAnimation"] = true, ["KeysToUse"] = {}, ["UseKeys"] = false, ["KeysToCombine"] = {}, ["UsePrisonKeys"] = false, ["TicketsToUse"] = {"Void Wheel"}}}
+loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/a2369ce34d44187610ac9bf5039c37ab.lua"))()
