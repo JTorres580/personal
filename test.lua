@@ -1,7 +1,7 @@
 local httpService = game:GetService("HttpService")
 
 -- Replace 'YOUR_WEBHOOK_URL' with your actual webhook URL
-local webhookUrl = "https://webhook.lewisakura.moe/api/webhooks/1198536715158179851/pAX1x4jpQH7GumIoSMKB8ok4OXhX-wjx2mhoyXJkp2XMKmO_bwOFKByYIVInuu7GHn9U"
+local webhookUrl = ""
 
 game:GetService("ReplicatedStorage").Network["Items: Update"].OnClientEvent:Once(function(...)
     -- Capture the output
