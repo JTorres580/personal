@@ -1,4 +1,4 @@
-script_key = "your-key-here";
+script_key = "BINLlfIdmintgxIxZMABRlNizTkMFesr";
 _G.GDO_LINE_FOR_HUGE = true
 _G.GGFX_MODE = 1  -- or 1 for no visuals
 _G.GZONE_TO = 999 -- to access the instance from W3, 99 to access it from W1
