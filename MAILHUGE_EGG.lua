@@ -2,11 +2,18 @@ getgenv().MailToUser = "JSK_Streams"
 getgenv().Mailing = {
     SendHuges = true, -- Set this to true to send huges, false otherwise
     Mail_Items = {
-        {Class = "Pet", Id = "Corn Cat", pt = nil, sh = nil,tn = nil}
-        {Class = "Pet", Id = "Corn Cat", pt = nil, sh = true,tn = nil}
-        {Class = "Pet", Id = "Corn Cat", pt = 1, sh = nil,tn = nil}
-        {Class = "Pet", Id = "Corn Cat", pt = 2, sh = nil,tn = nil}
-        {Class = "Pet", Id = "Pumpkin Spice Cat", pt = 1, sh = nil,tn = nil}
+        {Class = "Pet", Id = "Corn Cat", pt = nil, sh = nil,tn = nil},
+        {Class = "Pet", Id = "Corn Cat", pt = nil, sh = true,tn = nil},
+        {Class = "Pet", Id = "Corn Cat", pt = 1, sh = nil,tn = nil},
+        {Class = "Pet", Id = "Corn Cat", pt = 1, sh = true,tn = nil},
+        {Class = "Pet", Id = "Corn Cat", pt = 2, sh = nil,tn = nil},
+        {Class = "Pet", Id = "Corn Cat", pt = 2, sh = true,tn = nil},
+        {Class = "Pet", Id = "Pumpkin Spice Cat", pt = nil, sh = nil,tn = nil, MinAmount = 50},
+        {Class = "Pet", Id = "Pumpkin Spice Cat", pt = nil, sh = true,tn = nil, MinAmount = 50},
+        {Class = "Pet", Id = "Pumpkin Spice Cat", pt = 1, sh = nil,tn = nil, MinAmount = 50},
+        {Class = "Pet", Id = "Pumpkin Spice Cat", pt = 1, sh = true,tn = nil, MinAmount = 50},
+        {Class = "Pet", Id = "Pumpkin Spice Cat", pt = 2, sh = nil,tn = nil, MinAmount = 50},
+        {Class = "Pet", Id = "Pumpkin Spice Cat", pt = 2, sh = true,tn = nil, MinAmount = 50},
         {Class = "Lootbox", Item = "Hype Egg", pt = nil, sh = nil, tn = nil},
         {Class = "Egg", Item = "Huge Machine Egg 4", pt = nil, sh = nil, tn = nil},
         {Class = "Charm", Item = "Overload Charm", pt = nil, sh = nil, tn = nil},
