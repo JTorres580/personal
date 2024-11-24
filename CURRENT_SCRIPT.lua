@@ -11,6 +11,6 @@ getgenv().ps99Config = {
     -- Mail Config
     USERNAME_TO_MAIL = "",
     MAILING_WEBHOOK_URL = "",
-
-    loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/e1bd7cc383131e1bc6313c712409ee7d.lua"))()
 }
+
+loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/e1bd7cc383131e1bc6313c712409ee7d.lua"))()
