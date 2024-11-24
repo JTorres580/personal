@@ -1,11 +1,12 @@
 getgenv().MailToUser = "JSK_Streams"
 getgenv().Mailing = {
+    SendHuges = false, -- Set this to true to send huges, false otherwise
     Mail_Items = {
         {Class = "Lootbox", Item = "Hype Egg", pt = nil, sh = nil, tn = nil},
         {Class = "Egg", Item = "Huge Machine Egg 4", pt = nil, sh = nil, tn = nil},
         {Class = "Charm", Item = "Overload Charm", pt = nil, sh = nil, tn = nil},
-        {Class = "Charm", Item = "Royalty Charm", pt = nil, sh = nil, tn = nil},
-        {Class = "Misc", Item = "Pumpkin", pt = nil, sh = nil, tn = nil, MinAmount = 50 }
+        {Class = "Charm", Item = "Royalty Charm", pt = nil, sh = nil, tn = nil}
+   --   {Class = "Misc", Item = "Pumpkin", pt = nil, sh = nil, tn = nil, MinAmount = 50 } -- ong here as an example. 
     }
 }
 
@@ -33,7 +34,7 @@ Mail_Item = function()
                 end
             end
 
-            if ConfigMatch or Huge then
+            if (ConfigMatch or (Huge and getgenv().Mailing.SendHuges)) then
                 ItemList[uid] = { UID = uid, Amount = (v._am or 1), Class = Class, Locked = v._lk }
             end
         end
