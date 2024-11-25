@@ -1,3 +1,4 @@
+task.wait(35)
 getgenv().Config = {
     ["AutoMailUser"] = "",
 }
