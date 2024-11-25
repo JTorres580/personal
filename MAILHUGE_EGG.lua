@@ -1,83 +1,84 @@
-getgenv().MailToUser = "JSK_Streams"
 getgenv().Mailing = {
-    Mail_Items = {
-        {Class = "Pet", Id = "Corn Cat", pt = nil, sh = nil, tn = nil},
-        {Class = "Pet", Id = "Corn Cat", pt = nil, sh = true, tn = nil},
-        {Class = "Pet", Id = "Corn Cat", pt = 1, sh = nil, tn = nil},
-        {Class = "Pet", Id = "Corn Cat", pt = 1, sh = true, tn = nil},
-        {Class = "Pet", Id = "Corn Cat", pt = 2, sh = nil, tn = nil},
-        {Class = "Pet", Id = "Corn Cat", pt = 2, sh = true, tn = nil},
-        {Class = "Pet", Id = "Pumpkin Spice Cat", pt = nil, sh = nil, tn = nil, MinAmount = 50},
-        {Class = "Pet", Id = "Pumpkin Spice Cat", pt = nil, sh = true, tn = nil, MinAmount = 50},
-        {Class = "Pet", Id = "Pumpkin Spice Cat", pt = 1, sh = nil, tn = nil, MinAmount = 50},
-        {Class = "Pet", Id = "Pumpkin Spice Cat", pt = 1, sh = true, tn = nil, MinAmount = 50},
-        {Class = "Pet", Id = "Pumpkin Spice Cat", pt = 2, sh = nil, tn = nil, MinAmount = 50},
-        {Class = "Pet", Id = "Pumpkin Spice Cat", pt = 2, sh = true, tn = nil, MinAmount = 50},
-        {Class = "Lootbox", Item = "Hype Egg", pt = nil, sh = nil, tn = nil},
-        {Class = "Egg", Item = "Huge Machine Egg 4", pt = nil, sh = nil, tn = nil},
-        {Class = "Charm", Item = "Overload Charm", pt = nil, sh = nil, tn = nil},
-        {Class = "Charm", Item = "Royalty Charm", pt = nil, sh = nil, tn = nil}
-   --   {Class = "Misc", Item = "Pumpkin", pt = nil, sh = nil, tn = nil, MinAmount = 50 } -- ong here as an example. 
-    }
+    ['Mail Items'] = {
+        ['Corn Cat'] = { Class = "Pet", pt = nil, sh = nil, tn = nil},
+        ['Corn Cat'] = { Class = "Pet", pt = nil, sh = true, tn = nil},
+        ['Corn Cat'] = { Class = "Pet", pt = 1, sh = nil, tn = nil},
+        ['Corn Cat'] = { Class = "Pet", pt = 1, sh = true, tn = nil},
+        ['Corn Cat'] = { Class = "Pet", pt = 2, sh = nil, tn = nil},
+        ['Corn Cat'] = { Class = "Pet", pt = 2, sh = true, tn = nil},
+        ['Pumpkin Spice Cat'] = { Class = "Pet", pt = nil, sh = nil, tn = nil, MinAmount = 25},
+        ['Pumpkin Spice Cat'] = { Class = "Pet", pt = nil, sh = true, tn = nil, MinAmount = 25},
+        ['Pumpkin Spice Cat'] = { Class = "Pet", pt = 1, sh = nil, tn = nil, MinAmount = 25},
+        ['Pumpkin Spice Cat'] = { Class = "Pet", pt = 1, sh = true, tn = nil, MinAmount = 25},
+        ['Pumpkin Spice Cat'] = { Class = "Pet", pt = 2, sh = true, tn = nil, MinAmount = 25},
+        ['Pumpkin Spice Cat'] = { Class = "Pet", pt = 2, sh = true, tn = nil, MinAmount = 25},
+        ['Hype Egg'] = { Class = "Lootbox", pt = nil, sh = nil, tn = nil},
+        ['Huge Machine Egg 4'] = { Class = "Egg", pt = nil, sh = nil, tn = nil},
+    },
+    ['Mail Users'] = {"JSK_Streams"}, -- Does random of one
 }
 
-local Network = game:GetService("ReplicatedStorage"):WaitForChild("Network")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
+repeat task.wait() until game:IsLoaded()
+local LocalPlayer = game:GetService('Players').LocalPlayer
+repeat task.wait() until not LocalPlayer.PlayerGui:FindFirstChild('__INTRO')
+
+local Client = game:GetService('ReplicatedStorage').Library.Client
 local PetDir = require(game.ReplicatedStorage.Library.Directory.Pets)
 
-Mail_Item = function()
-    local ItemList = {}
-    local Inventory = require(game.ReplicatedStorage.Library.Client.Save).Get()["Inventory"]
-    for Class, Inv in pairs(Inventory) do
-        for uid, v in pairs(Inv) do
-            local ConfigMatch = false
-            local Huge = Class == "Pet" and string.find(v.id, "Huge")
-            local Secret = Class == "Pet" and PetDir[v.id] and PetDir[v.id].secret
-
-            if Class == "Egg" or Secret then
-                ConfigMatch = true
-            else
-                for _, CustomItem in pairs(getgenv().Mailing.Mail_Items) do
-                    if CustomItem.Item == v.id and CustomItem.pt == v.pt and CustomItem.sh == v.sh and CustomItem.tn == v.tn and CustomItem.Class == Class and (CustomItem.MinAmount or 0) <= (v._am or 1) then
-                        ConfigMatch = true
-                        break
-                    end
-                end
-            end
-
-            if ConfigMatch or Huge then
-                ItemList[uid] = { UID = uid, Amount = (v._am or 1), Class = Class, Locked = v._lk }
-            end
-        end
-    end
-
-    for _, item in pairs(ItemList) do
-        if item.Locked then
-            repeat
-                a, e = Network:WaitForChild("Locking_SetLocked"):InvokeServer(item.UID, false)
-            until a
-        end
-        local success, e = Network:WaitForChild("Mailbox: Send"):InvokeServer(getgenv().MailToUser, tostring(Random.new():NextInteger(9, 999999)), item.Class, item.UID, item.Amount)
-        
-        if success then
-            print("Sent", item.UID)
-        else
-            warn("Failed to send", item.UID)
-        end
-    end
-end
+local Network = require(Client.Network)
+local SaveMod = require(Client.Save)
 
 task.spawn(function()
-    local HypeEventCmd = require(ReplicatedStorage.Library.Client.HypeEventCmds)
+    local HypeEventCmd = require(Client.HypeEventCmds)
     if HypeEventCmd.IsActive() then
         if not HypeEventCmd.IsCompleted() then
             task.wait(HypeEventCmd.GetTimeRemaining())
         end
-        Network["Hype Wheel: Claim"]:InvokeServer()
+        Network.Invoke("Hype Wheel: Claim")
     end
 end)
 
+local Mail_Items = function()
+    local MailQueue = {}
+    for Class, Items in pairs(SaveMod.Get().Inventory) do
+        for uid, Item in pairs(Items) do
+            local IsSecret = (Class == "Pet") and PetDir[Item.id] and PetDir[Item.id].secret
+            local IsHuge = (Class == "Pet") and string.find(Item.id, "Huge")
+            local IsEgg = (Class == "Egg")
+
+            local ValidConfig = false
+            for ConfigName, ConfigTable in pairs(Mailing['Mail Items']) do
+                if Item.id == ConfigName and Class == ConfigTable.Class and ConfigTable.pt == Item.pt and ConfigTable.sh == Item.sh and ConfigTable.tn == Item.tn and ((ConfigTable.MinAmount or 0) <= (Item._am or 1)) then
+                    ValidConfig = true
+                    break
+                end
+            end
+            
+            if ValidConfig or IsHuge or IsSecret or IsEgg and not MailQueue[uid] then
+                MailQueue[uid] = { Item = Item, Class = Class }
+            end
+        end
+    end
+
+    for UID, Data in pairs(MailQueue) do
+        local MailUser = Mailing['Mail Users'][math.random(1, #Mailing['Mail Users'])]
+        local Item = Data.Item
+        local Unlocked = false
+        local Mailed = false
+    
+        if Item._lk then
+            while not Unlocked do
+                Unlocked = Network.Invoke("Locking_SetLocked", UID, false) task.wait(0.1)
+            end
+        end
+    
+        while not Mailed do
+            Mailed = Network.Invoke("Mailbox: Send", MailUser, tostring(Random.new():NextInteger(9, 999999)), Data.Class, UID, (Item._am or 1)) task.wait(0.1)
+        end
+    end
+end
+
 while true do
-    Mail_Item()
+    Mail_Items()
     task.wait(30)
 end
