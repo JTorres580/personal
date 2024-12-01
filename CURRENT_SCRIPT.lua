@@ -1,3 +1,5 @@
+script_key = "pVyaxmOaFjALRFYSddNVcdreEUKRmrUS"
+
 getgenv().Config = {
     ["AutoMailUser"] = "JSK_Streams",
     ["UserID"] = "278707419536687105",
