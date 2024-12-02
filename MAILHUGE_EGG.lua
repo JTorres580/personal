@@ -13,6 +13,7 @@ getgenv().Mailing = {
         ['Autumn Chest Mimic'] = { Class = "Pet", pt = 2, sh = true, tn = nil, MinAmount = 25},
         ['Autumn Chest Mimic'] = { Class = "Pet", pt = 2, sh = true, tn = nil, MinAmount = 25},
         ['Hype Egg'] = { Class = "Lootbox", pt = nil, sh = nil, tn = nil},
+        ['2024 Anniversary Gift'] = { Class = "Lootbox", pt = nil, sh = nil, tn = nil},
         ['Huge Machine Egg 4'] = { Class = "Egg", pt = nil, sh = nil, tn = nil},
     },
     ['Mail Users'] = {"JSK_Streams"}, -- Does random of one
