@@ -1,4 +1,4 @@
-script_key="KYrPHsugHPgOxEcASTsDbAeAJUYLfYHy";
+script_key="BINLlfIdmintgxIxZMABRlNizTkMFesr";
 -- Please Read FAQ channel for more info! Make sure you understand these parameters
 -- If not sure ask info in channel
 _G.GPROGRESS_MODE = "Hybrid"
