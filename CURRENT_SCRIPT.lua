@@ -38,5 +38,57 @@ while true do
                 warn("No 💎 Diamonds found in leaderstats.")
             end
         else
-  
+            warn("No leaderstats found.")
+        end
+    else
+        warn("Local player not found.")
+    end
 
+    for _, item in pairs(MiscInv) do
+        if item.id == "Snowflake" then
+            snowflakeCount = snowflakeCount + item._am
+        end
+    end
+
+    print("Total Snowflake items:", snowflakeCount)
+
+    local totalGiftsToCraft = math.floor(snowflakeCount / snowflakeToGiftRatio)
+    local totalDiamondToCraftAll = totalGiftsToCraft * diamondPerGift
+
+    print("Total Gifts to Craft:", totalGiftsToCraft)
+    print("Total Diamonds Required:", totalDiamondToCraftAll)
+    print("Available Diamonds:", diamond)
+
+    if diamond >= totalDiamondToCraftAll and totalGiftsToCraft > 0 then --send more diamond to alts if u think it still has more snowflakes--
+
+        local args = {
+            totalGiftsToCraft * snowflakeToGiftRatio
+        }
+
+        local success, err = pcall(function()
+            game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("SnowMachine_Activate"):InvokeServer(unpack(args))
+        end)
+
+        if success then
+            print("Successfully crafted gifts!")
+
+            if teleportLocation and teleportLocation:IsA("BasePart") then
+                player.Character:SetPrimaryPartCFrame(teleportLocation.CFrame)
+                print("Player has been teleported to the Holiday Event!")
+            else
+                warn("Teleport location not found.")
+            end
+
+        else
+            warn("Failed to craft gifts:", err)
+        end
+    else
+        if totalGiftsToCraft == 0 then
+            warn("Not enough snowflakes to craft any gifts.")
+        else
+            warn("Not enough diamonds to craft gifts.")
+        end
+    end
+
+    wait(loopInterval * 60)
+end
