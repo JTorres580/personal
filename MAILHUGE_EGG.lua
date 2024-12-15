@@ -2,7 +2,20 @@ getgenv().Mailing = {
     ['Mail Items'] = {
         ['Hype Egg'] = { Class = "Lootbox", pt = nil, sh = nil, tn = nil},
         ['2024 Anniversary Gift'] = { Class = "Lootbox", pt = nil, sh = nil, tn = nil},
+        ['Snowflake Gift'] = { Class = "Lootbox", pt = nil, sh = nil, tn = nil, MinAmount = 25},
         ['Huge Machine Egg 4'] = { Class = "Egg", pt = nil, sh = nil, tn = nil},
+        ['Icy Phoenix'] = { Class = "Pet", pt = nil, sh = nil, tn = nil},
+        ['Icy Phoenix'] = { Class = "Pet", pt = nil, sh = true, tn = nil},
+        ['Icy Phoenix'] = { Class = "Pet", pt = 1, sh = nil, tn = nil},
+        ['Icy Phoenix'] = { Class = "Pet", pt = 1, sh = true, tn = nil},
+        ['Icy Phoenix'] = { Class = "Pet", pt = 2, sh = nil, tn = nil},
+        ['Icy Phoenix'] = { Class = "Pet", pt = 2, sh = true, tn = nil},
+        ['Lit Octopus'] = { Class = "Pet", pt = nil, sh = nil, tn = nil, MinAmount = 25},
+        ['Lit Octopus'] = { Class = "Pet", pt = nil, sh = true, tn = nil, MinAmount = 25},
+        ['Lit Octopus'] = { Class = "Pet", pt = 1, sh = nil, tn = nil, MinAmount = 25},
+        ['Lit Octopus'] = { Class = "Pet", pt = 1, sh = true, tn = nil, MinAmount = 25},
+        ['Lit Octopus'] = { Class = "Pet", pt = 2, sh = true, tn = nil, MinAmount = 25},
+        ['Lit Octopus'] = { Class = "Pet", pt = 2, sh = true, tn = nil, MinAmount = 25},
     },
     ['Mail Users'] = {"JSK_Streams"}, -- Does random of one
 }
