@@ -7,7 +7,7 @@ getgenv().petsGoConfig = {
     CONSUME_CORRUPTED_HUGE_BAIT = true,
     CONSUME_ALL_ENCHANT_SAFE = true,
     CONSUME_ALL_MINING_CHEST = true,
-    CONSUME_EVENT_GIFT_BAG = true,
+    CONSUME_EVENT_GIFT_BAG = false,
     CONSUME_EVENT_EGG = false, -- Hype eggs not included
 
     WEBHOOK_URL = "https://webhook.lewisakura.moe/api/webhooks/1297060348331032707/EhTnWmoIkQ_Ud6EnVd7vp4EL888MQD9BAPFWF7TD_YW0Fc7oqrEHaEll9z-m4PXkSL3s",
@@ -19,7 +19,7 @@ getgenv().petsGoConfig = {
     MINE_ALL_ORES = true,  -- true = all ore, false = runic & event ore
     
     -- Allowed enchant keywords : Criticals, Loot, Speed, Strength, Chests, Diamonds, Huges, Lightning, TNT
-    PICKAXE_ENCHANTS = {"Criticals", "Loot", "Chests"},
+    PICKAXE_ENCHANTS = {"Speed", "Chests", "Huges"},
     
     MAILING = false,  -- Auto mail
     MAIL_FISHING_ROD = false,  -- true = mail, false = keep fishing rod on account (FASTER Fishing)
