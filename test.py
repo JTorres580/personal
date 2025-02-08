@@ -11,6 +11,7 @@ cl = Client()
 
 # Display a loading message when starting the bot (Blue)
 print(f"{Fore.BLUE}Loading Instagram Bot...")
+print(f"{Fore.YELLOW}THIS WAS UPDATED")
 
 # Display the welcome message with the username from config (Blue)
 print(f"{Fore.BLUE}Welcome! {config.username}")
