@@ -15,7 +15,7 @@ print(f"{Fore.YELLOW}Now Running Version 0.5V")
 print(f"{Fore.RED}EXCLUSIVE MORTGAGE VERSION")
 
 # Display the welcome message with the username from config (Blue)
-print(f"{Fore.BLUE}Welcome! {Fore.WHITE}{config.username}")
+print(f"{Fore.CYAN}Welcome! {Fore.WHITE}{config.username}")
 
 try:
     cl.login(config.username, config.password)
