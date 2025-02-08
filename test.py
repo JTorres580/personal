@@ -29,7 +29,30 @@ except Exception as e:
 class LikePost:
     def __init__(self, client):
         self.cl = client
-        self.tags = ['pokemon', 'toys', 'gaming', 'programming']
+        self.tags = [
+            'Happyhomeowner', 'Firsthomeowner', 
+            'dreamhome', 'womenwholead', 'bwofgod', 'womanofgod', 'jesuslovesyou', 'AVwomen', 
+            'exprealty', 'Avrealty', 'palmdalerealestate', 'lancasterrealestate', 'palmdale', 
+            'lancaster', 'firsttimebuyer', 'Realbrokerage', 'openhouse', 'coldwellbankerhartwig', 
+            'santaclaritahomes', 'AVseller', 'homesweethome', 'realestategoals', 'kellerwilliams', 
+            'Rosamond', '661realestate', 'azrealtor', 'downpaymentassistance', 'AntelopeValleyRealtor', 
+            'PalmdaleRealtor', 'LancasterCARealtor', 'AVRealtors', 'PalmdaleHomesForSale', 
+            'LancasterHomesForSale', 'AntelopeValleyRealEstate', 'PalmdaleRealEstate', 'LancasterCARealEstate', 
+            'AntelopeValleyLiving', 'PalmdaleLiving', 'LancasterCALiving', 'AVLuxuryHomes', 'AVNewHomes', 
+            'AVHomeLoans', 'AntelopeValleyMortgage', 'PalmdaleMortgageLender', 'LancasterCAMortgage', 
+            'HomeBuyingMadeEasy', 'RealtorNetworking', 'RealtorMarketing', 'RealEstateGrowth', 'AVInvestors', 
+            'FirstTimeHomeBuyerAV', 'HomeBuyersPalmdale', 'BuySellInvestAV', 'RealtorsOfInstagram', 
+            'CaliforniaRealtors', 'RealEstateLife', 'RealtorGoals', 'RealtorSuccess', 'RealEstateMarketing', 
+            'RealEstateInvesting', 'HouseHunting', 'JustListed', 'HomeOwnerLife', 'MyFirstHome', 
+            'ForeverHome', 'DreamHomeGoals', 'HomeSweetHome', 'HouseToHome', 'NewHomeJourney', 'HomeOwnersUnite', 
+            'FirstTimeBuyerTips', 'HomeBuying101', 'MortgageMadeEasy', 'HomeLoanExperts', 'HomeBuyingProcess', 
+            'HomeLoanHelp', 'HomeFinance', 'SellingYourHome', 'ReadyToSell', 'TimeToMove', 'HouseForSaleNow', 
+            'ListYourHome', 'SellYourHomeFast', 'BestTimeToSell', 'AntelopeValleyHomes', 'PalmdaleLiving', 
+            'LancasterLiving', 'MoveToAV', 'AVHomesForSale', 'LiveInPalmdale', 'LiveInLancaster', 
+            'BuyAHomeInAV', 'LuxuryHomesAV', 'AVInvestmentProperties', 'CaliforniaLuxuryHomes', 'RealEstateInvestorAV', 
+            'RealtorLife', 'HomeBuyingMadeSimple', 'DreamHomeLoading', 'RealtorSuccessStories', 'HelpingHomeowners', 
+            'HouseHunters'
+        ]
         self.liked_medias = []
         self.elapsed_time = 0
 
