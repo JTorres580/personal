@@ -1,4 +1,3 @@
-
 import random
 import time
 from instagrapi import Client
@@ -16,7 +15,7 @@ print(f"{Fore.YELLOW}Now Running Version 0.5V")
 print(f"{Fore.RED}DOVE VERSION")
 
 # Display the welcome message with the username from config (Blue)
-print(f"{Fore.BLUE}Welcome! {config.username}")
+print(f"{Fore.BLUE}Welcome! {Fore.WHITE}{config.username}")
 
 try:
     cl.login(config.username, config.password)
@@ -35,7 +34,18 @@ class LikePost:
         self.elapsed_time = 0
 
     def wait_time(self, delay):
-        time.sleep(delay)
+        # Countdown timer that updates on the same line
+        for i in range(delay, 0, -1):
+            print(f"{Fore.YELLOW}Waiting... {i}s", end="\r")
+            time.sleep(1)
+        print(f"{Fore.GREEN}Waiting complete!              ")  # Clear the line
+
+    def wait_for_api(self, delay):
+        # Countdown timer for API rate limit delay when fetching posts from followed users
+        for i in range(delay, 0, -1):
+            print(f"{Fore.YELLOW}Searching for posts... {i}s", end="\r")
+            time.sleep(1)
+        print(f"{Fore.GREEN}Search delay complete!              ")  # Clear the line
 
     def get_post_id_from_following(self):
         try:
@@ -45,6 +55,9 @@ class LikePost:
             # Select a random followed user
             random_user_id = random.choice(following).pk  # Ensure we use the correct object to get user ID
             print(f"{Fore.YELLOW}Searching for posts from followed user...")
+
+            # Delay before attempting to fetch posts to avoid spamming the API
+            self.wait_for_api(random.randint(10, 30))  # Adjust the delay as needed (30 to 60 seconds)
 
             # Get the media from that followed user
             user_posts = self.cl.user_medias(random_user_id, amount=1)  # Fetch 1 post from the followed user
