@@ -4,44 +4,45 @@ from instagrapi import Client
 import config
 from colorama import Fore, init
 import logging
+import os
 
 # Initialize colorama
 init(autoreset=True)
 
 logger = logging.getLogger()
-
 cl = Client()
 
+# Function to handle login process
 def login_user():
     """
     Attempts to login to Instagram using either the provided session information
     or the provided username and password.
     """
-    session = cl.load_settings("session.json")
+    session_file = "session.json"
     login_via_session = False
     login_via_pw = False
 
-    if session:
+    if os.path.exists(session_file):
         try:
-            cl.set_settings(session)
-            cl.login(config.username, config.password)
-
-            # check if session is valid
-            try:
-                cl.get_timeline_feed()
-            except LoginRequired:
-                logger.info("Session is invalid, need to login via username and password")
-
-                old_session = cl.get_settings()
-
-                # use the same device uuids across logins
-                cl.set_settings({})
-                cl.set_uuids(old_session["uuids"])
-
+            session = cl.load_settings(session_file)
+            if session:
+                cl.set_settings(session)
                 cl.login(config.username, config.password)
-            login_via_session = True
+
+                # Check if session is valid
+                try:
+                    cl.get_timeline_feed()
+                    print(f"{Fore.GREEN}Session loaded successfully from {session_file}")
+                    login_via_session = True
+                except LoginRequired:
+                    logger.info("Session is invalid, need to login via username and password")
+                    cl.logout()
+                    cl.login(config.username, config.password)
+                    cl.dump_settings(session_file)  # Save new session
+                    login_via_session = True
+                    print(f"{Fore.GREEN}New session saved to {session_file}")
         except Exception as e:
-            logger.info("Couldn't login user using session information: %s" % e)
+            logger.info("Couldn't login using session information: %s" % e)
 
     if not login_via_session:
         try:
@@ -49,17 +50,17 @@ def login_user():
             if cl.login(config.username, config.password):
                 login_via_pw = True
         except Exception as e:
-            logger.info("Couldn't login user using username and password: %s" % e)
+            logger.info("Couldn't login using username and password: %s" % e)
 
     if not login_via_pw and not login_via_session:
-        raise Exception("Couldn't login user with either password or session")
+        raise Exception("Couldn't login with either password or session")
 
     # Save session for future use
-    cl.dump_settings("session.json")
+    cl.dump_settings(session_file)
 
 # Display a loading message when starting the bot (Blue)
 print(f"{Fore.BLUE}Loading Instagram Bot...")
-print(f"{Fore.YELLOW}Now Running Version 0.73V")
+print(f"{Fore.YELLOW}Now Running Version 0.733V")
 print(f"{Fore.CYAN}TCGDOVES VERSION")
 
 # Display the welcome message with the username from config (Blue)
@@ -194,4 +195,4 @@ try:
 
 except Exception as e:
     print(f"Fatal error: {e}")
-    input("Press Enter to exit...")
+    input("Press Enter to exit...")  # Prevents the script from closing immediately
