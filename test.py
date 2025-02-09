@@ -11,8 +11,8 @@ cl = Client()
 
 # Display a loading message when starting the bot (Blue)
 print(f"{Fore.BLUE}Loading Instagram Bot...")
-print(f"{Fore.YELLOW}Now Running Version 0.65V")
-print(f"{Fore.RED}EXCLUSIVE MORTGAGE VERSION")
+print(f"{Fore.YELLOW}Now Running Version 0.72V")
+print(f"{Fore.CYAN}EXCLUSIVE MORTGAGE VERSION")
 
 # Display the welcome message with the username from config (Blue)
 print(f"{Fore.CYAN}Welcome! {Fore.WHITE}{config.username}")
@@ -57,22 +57,24 @@ class LikePost:
         self.elapsed_time = 0
 
     def wait_time(self, delay):
+        print(f"{Fore.YELLOW}Waiting for {delay}s...", end="\r")
         for i in range(delay, 0, -1):
-            print(f"{Fore.YELLOW}Waiting... {i}s", end="\r")
+            print(f"{Fore.YELLOW}Waiting... {i}s", end="\r")  # Countdown on same line
             time.sleep(1)
         print(f"{Fore.GREEN}Waiting complete!              ")
 
     def wait_for_api(self, delay):
+        print(f"{Fore.YELLOW}Searching for posts for {delay}s...", end="\r")
         for i in range(delay, 0, -1):
-            print(f"{Fore.YELLOW}Searching for posts... {i}s", end="\r")
+            print(f"{Fore.YELLOW}Searching... {i}s", end="\r")  # Countdown on same line
             time.sleep(1)
         print(f"{Fore.GREEN}Search delay complete!              ")
 
     def get_post_id_from_following(self):
         try:
+            print(f"{Fore.YELLOW}Checking for posts from followed user...")
             following = self.cl.user_following_v1(self.cl.user_id)
             random_user_id = random.choice(following).pk
-            print(f"{Fore.YELLOW}Searching for posts from followed user...")
             self.wait_for_api(random.randint(20, 30))
             user_posts = self.cl.user_medias(random_user_id, amount=1)
             if user_posts:
@@ -110,7 +112,9 @@ class LikePost:
             return None
 
     def like_post(self, amount):
+        print(f"{Fore.CYAN}Starting to like posts...")
         for _ in range(amount):
+            print(f"{Fore.YELLOW}Liking posts...")
             if random.random() < 0.1:
                 random_post = self.get_post_id_from_following()
             else:
@@ -123,13 +127,20 @@ class LikePost:
                     random_delay = random.randint(30, 120)
                     self.elapsed_time += random_delay
                     print(f"Liked {len(self.liked_medias)} posts, time elapsed {self.elapsed_time / 60:.2f} minutes, now waiting {random_delay} seconds")
-                    self.wait_time(random_delay)
+                    
+                    # Countdown for the random delay between actions
+                    for i in range(random_delay, 0, -1):
+                        print(f"{Fore.YELLOW}Waiting... {i}s", end="\r")  # Overwrites the same line
+                        time.sleep(1)
+                    print(f"{Fore.GREEN}Waiting complete!              ")
+
                 except Exception as e:
                     print(f"Error liking post: {e}")
             else:
                 print("Skipping duplicate or invalid post.")
 
     def view_random_stories(self):
+        print(f"{Fore.CYAN}Checking for stories to view...")
         try:
             following = self.cl.user_following_v1(self.cl.user_id)
             random_user_id = random.choice(following).pk
@@ -141,16 +152,18 @@ class LikePost:
                     self.cl.story_like(story_pks[0])
                 print(f"{Fore.GREEN}Viewed {len(stories)} stories and liked one!")
             else:
-                print("No stories available to view.")
+                print(f"{Fore.YELLOW}No stories available to view.")
         except Exception as e:
             print(f"Error viewing stories: {e}")
 
 try:
     start = LikePost(cl)
-    for _ in range(10):  # Adjust frequency of story views
+    for _ in range(10):  # Adjust frequency of actions
         start.view_random_stories()
-        time.sleep(random.randint(60, 180))  # Random wait time between actions
-    start.like_post(600)
+        time.sleep(random.randint(60, 180))  # Random wait time after viewing stories
+        
+        start.like_post(60)  # Like a smaller batch of posts (or adjust as needed)
+        time.sleep(random.randint(60, 180))  # Random wait time after liking posts
 except Exception as e:
     print(f"Fatal error: {e}")
     input("Press Enter to exit...")
