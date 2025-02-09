@@ -31,6 +31,8 @@ def login_user():
                 # Check if session is valid
                 try:
                     cl.get_timeline_feed()
+                    logger.info(f"Session loaded successfully for {config.username}")
+                    print(f"{Fore.GREEN}Login successful using session!")
                 except LoginRequired:
                     logger.info("Session is invalid, need to login via username and password")
 
@@ -39,6 +41,7 @@ def login_user():
                     cl.set_uuids(old_session["uuids"])
 
                     cl.login(config.username, config.password)
+                    print(f"{Fore.GREEN}Login successful using username and password!")
                 login_via_session = True
             except Exception as e:
                 logger.info("Couldn't login user using session information: %s" % e)
@@ -48,6 +51,7 @@ def login_user():
                 logger.info(f"Attempting to login via username and password. username: {config.username}")
                 if cl.login(config.username, config.password):
                     login_via_pw = True
+                    print(f"{Fore.GREEN}Login successful using username and password!")
             except Exception as e:
                 logger.info(f"Couldn't login user using username and password: {e}")
 
@@ -64,7 +68,7 @@ def login_user():
 
 # Display a loading message when starting the bot (Blue)
 print(f"{Fore.BLUE}Loading Instagram Bot...")
-print(f"{Fore.YELLOW}Now Running Version 0.55V")
+print(f"{Fore.YELLOW}Now Running Version 0.57V")
 print(f"{Fore.CYAN}TCG DOVES VERSION")
 
 # Display the welcome message with the username from config (Blue)
@@ -143,7 +147,7 @@ class LikePost:
     def like_post(self, amount):
         for _ in range(amount):
             # 70% chance to get a post from followed users, 30% chance from hashtags
-            if random.random() < 0.7:
+            if random.random() < 0.2:
                 random_post = self.get_post_id_from_following()
             else:
                 random_post = self.get_post_id_from_hashtags()
@@ -152,7 +156,7 @@ class LikePost:
                 try:
                     self.cl.media_like(media_id=random_post)
                     self.liked_medias.append(random_post)
-                    random_delay = random.randint(20, 60)  # Adjust delay if needed
+                    random_delay = random.randint(30, 260)  # Adjust delay if needed
                     self.elapsed_time += random_delay
                     print(f"Liked {len(self.liked_medias)} posts, time elapsed {self.elapsed_time / 60:.2f} minutes, now waiting {random_delay} seconds")
                     self.wait_time(random_delay)
