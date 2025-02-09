@@ -11,25 +11,20 @@ cl = Client()
 
 # Display a loading message when starting the bot (Blue)
 print(f"{Fore.BLUE}Loading Instagram Bot...")
-print(f"{Fore.YELLOW}Now Running Version 0.67V")
+print(f"{Fore.YELLOW}Now Running Version 0.7V")
 print(f"{Fore.CYAN}TCGDOVES VERSION")
 
 # Display the welcome message with the username from config (Blue)
 print(f"{Fore.CYAN}Welcome! {Fore.WHITE}{config.username}")
 
-def login():
-    """Logs into Instagram using the provided credentials."""
-    global cl
-    try:
-        cl.login(config.username, config.password)
-        print(f"{Fore.GREEN}Login successful!")
-    except Exception as e:
-        print(f"{Fore.RED}Login failed: {e}")
-        input("Press Enter to exit...")
-        exit()
-
-# Perform initial login
-login()
+try:
+    cl.login(config.username, config.password)
+    # Login successful message (Green)
+    print(f"{Fore.GREEN}Login successful!")
+except Exception as e:
+    print(f"Login failed: {e}")
+    input("Press Enter to exit...")  # Prevents the script from closing immediately
+    exit()
 
 class LikePost:
     def __init__(self, client):
@@ -44,30 +39,24 @@ class LikePost:
         self.elapsed_time = 0
 
     def wait_time(self, delay):
-        """Displays a countdown timer."""
         for i in range(delay, 0, -1):
             print(f"{Fore.YELLOW}Waiting... {i}s", end="\r")
             time.sleep(1)
         print(f"{Fore.GREEN}Waiting complete!              ")
 
     def wait_for_api(self, delay):
-        """Wait time for API rate limits."""
         for i in range(delay, 0, -1):
             print(f"{Fore.YELLOW}Searching for posts... {i}s", end="\r")
             time.sleep(1)
         print(f"{Fore.GREEN}Search delay complete!              ")
 
     def get_post_id_from_following(self):
-        """Fetches a post from a random followed user."""
         try:
             following = self.cl.user_following_v1(self.cl.user_id)
             random_user_id = random.choice(following).pk
             print(f"{Fore.YELLOW}Searching for posts from followed user...")
-
             self.wait_for_api(random.randint(20, 30))
-
             user_posts = self.cl.user_medias(random_user_id, amount=1)
-
             if user_posts:
                 media_dict = user_posts[0].model_dump()
                 print(f"{Fore.GREEN}Post Found from followed user!")
@@ -80,12 +69,11 @@ class LikePost:
             return None
 
     def get_post_id_from_hashtags(self):
-        """Fetches a post using a random hashtag."""
-        global cl
         try:
+            print(f"{Fore.YELLOW}Simulating scrolling before searching for a post via hashtags...")
+            time.sleep(random.randint(5, 10))
             print(f"{Fore.YELLOW}Searching for a post via hashtags...")
             medias = self.cl.hashtag_medias_recent(random.choice(self.tags), amount=1)
-            
             if medias:
                 media_dict = medias[0].model_dump()
                 print(f"{Fore.GREEN}Post Found from hashtags!")
@@ -94,20 +82,17 @@ class LikePost:
                 print("No media found, retrying...")
                 return None
         except Exception as e:
-            print(f"{Fore.RED}Error fetching post via hashtags: {e}")
-
             if "login_required" in str(e):
-                print(f"{Fore.RED}Login required! Waiting 1 minute before re-logging in...")
-                self.wait_time(60)  # Wait 1 minute
-                login()  # Re-login
-                return self.get_post_id_from_hashtags()  # Retry after login
-            
+                print(f"{Fore.RED}Session expired, re-logging in after 60 seconds...")
+                time.sleep(60)
+                cl.login(config.username, config.password)
+                print(f"{Fore.GREEN}Re-login successful!")
+                return self.get_post_id_from_hashtags()
+            print(f"Error fetching post via hashtags: {e}")
             return None
 
     def like_post(self, amount):
-        """Likes a specified number of posts."""
         for _ in range(amount):
-            # 70% chance to get a post from followed users, 30% chance from hashtags
             if random.random() < 0.1:
                 random_post = self.get_post_id_from_following()
             else:
@@ -126,9 +111,28 @@ class LikePost:
             else:
                 print("Skipping duplicate or invalid post.")
 
+    def view_random_stories(self):
+        try:
+            following = self.cl.user_following_v1(self.cl.user_id)
+            random_user_id = random.choice(following).pk
+            stories = self.cl.user_stories(random_user_id, amount=random.randint(1, 3))
+            if stories:
+                story_pks = [story.id for story in stories]
+                self.cl.story_seen(story_pks, skipped_story_pks=[])
+                if random.random() < 0.2:
+                    self.cl.story_like(story_pks[0])
+                print(f"{Fore.GREEN}Viewed {len(stories)} stories and liked one!")
+            else:
+                print("No stories available to view.")
+        except Exception as e:
+            print(f"Error viewing stories: {e}")
+
 try:
     start = LikePost(cl)
+    for _ in range(10):  # Adjust frequency of story views
+        start.view_random_stories()
+        time.sleep(random.randint(60, 180))  # Random wait time between actions
     start.like_post(600)
 except Exception as e:
-    print(f"{Fore.RED}Fatal error: {e}")
+    print(f"Fatal error: {e}")
     input("Press Enter to exit...")
