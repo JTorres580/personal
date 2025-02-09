@@ -9,6 +9,7 @@ getgenv().petsGoConfig = {
     CONSUME_ALL_MINING_CHEST = true,
     CONSUME_EVENT_GIFT_BAG = false,
     CONSUME_EVENT_EGG = false, -- Hype eggs not included
+    IGNORE_DICE_COMBO = true,
 
     WEBHOOK_URL = "https://webhook.lewisakura.moe/api/webhooks/1297060348331032707/EhTnWmoIkQ_Ud6EnVd7vp4EL888MQD9BAPFWF7TD_YW0Fc7oqrEHaEll9z-m4PXkSL3s",
     MAILING_WEBHOOK_URL = "https://webhook.lewisakura.moe/api/webhooks/1248856141044125708/BN1uy53rJHEdQJHKJyBUfDS1JWACTm_anpGDaoJc3qMGS0RCwKgWJMemNqZDAwzSglqs",
