@@ -62,7 +62,7 @@ class LikePost:
             print(f"{Fore.YELLOW}Searching for posts from followed user...")
 
             # Delay before attempting to fetch posts to avoid spamming the API
-            self.wait_for_api(random.randint(10, 30))  # Adjust the delay as needed (30 to 60 seconds)
+            self.wait_for_api(random.randint(20, 30))  # Adjust the delay as needed (30 to 60 seconds)
 
             # Get the media from that followed user
             user_posts = self.cl.user_medias(random_user_id, amount=1)  # Fetch 1 post from the followed user
@@ -106,7 +106,7 @@ class LikePost:
                 try:
                     self.cl.media_like(media_id=random_post)
                     self.liked_medias.append(random_post)
-                    random_delay = random.randint(20, 60)  # Adjust delay if needed
+                    random_delay = random.randint(30, 120)  # Adjust delay if needed
                     self.elapsed_time += random_delay
                     print(f"Liked {len(self.liked_medias)} posts, time elapsed {self.elapsed_time / 60:.2f} minutes, now waiting {random_delay} seconds")
                     self.wait_time(random_delay)
