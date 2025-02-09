@@ -97,7 +97,7 @@ class LikePost:
     def like_post(self, amount):
         for _ in range(amount):
             # 70% chance to get a post from followed users, 30% chance from hashtags
-            if random.random() < 0.7:
+            if random.random() < 0.1:
                 random_post = self.get_post_id_from_following()
             else:
                 random_post = self.get_post_id_from_hashtags()
