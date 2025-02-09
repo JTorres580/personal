@@ -12,10 +12,10 @@ cl = Client()
 # Display a loading message when starting the bot (Blue)
 print(f"{Fore.BLUE}Loading Instagram Bot...")
 print(f"{Fore.YELLOW}Now Running Version 0.5V")
-print(f"{Fore.RED}DOVE VERSION")
+print(f"{Fore.CYAN}TCGDOVES VERSION")
 
 # Display the welcome message with the username from config (Blue)
-print(f"{Fore.BLUE}Welcome! {Fore.WHITE}{config.username}")
+print(f"{Fore.CYAN}Welcome! {Fore.WHITE}{config.username}")
 
 try:
     cl.login(config.username, config.password)
@@ -29,7 +29,12 @@ except Exception as e:
 class LikePost:
     def __init__(self, client):
         self.cl = client
-        self.tags = ['pokemon', 'toys', 'gaming', 'programming']
+        self.tags = [
+            "PokemonTCG", "PokemonCards", "PokemonCollector", "Charizard", "RarePokemonCards",
+            "ShinyPokemon", "GradedPokemon", "PokemonHobby", "PokemonCommunity", "PokemonPulls",
+            "PSAPokemon", "PokemonCardHunting", "VintagePokemon", "PokemonInvesting",
+            "PokemonPocket", "PokemonTCGPocket"
+        ]
         self.liked_medias = []
         self.elapsed_time = 0
 
