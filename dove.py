@@ -3,77 +3,75 @@ import time
 from instagrapi import Client
 import config
 from colorama import Fore, init
+from instagrapi.exceptions import LoginRequired
 import logging
-import os
 
 # Initialize colorama
 init(autoreset=True)
 
+# Set up logging
 logger = logging.getLogger()
-cl = Client()
 
-# Function to handle login process
 def login_user():
     """
     Attempts to login to Instagram using either the provided session information
     or the provided username and password.
     """
-    session_file = "session.json"
-    login_via_session = False
-    login_via_pw = False
+    cl = Client()
+    try:
+        session = cl.load_settings("session.json")
+        login_via_session = False
+        login_via_pw = False
 
-    if os.path.exists(session_file):
-        try:
-            session = cl.load_settings(session_file)
-            if session:
+        if session:
+            try:
                 cl.set_settings(session)
                 cl.login(config.username, config.password)
 
                 # Check if session is valid
                 try:
                     cl.get_timeline_feed()
-                    print(f"{Fore.GREEN}Session loaded successfully from {session_file}")
-                    login_via_session = True
                 except LoginRequired:
                     logger.info("Session is invalid, need to login via username and password")
-                    cl.logout()
+
+                    old_session = cl.get_settings()
+                    cl.set_settings({})
+                    cl.set_uuids(old_session["uuids"])
+
                     cl.login(config.username, config.password)
-                    cl.dump_settings(session_file)  # Save new session
-                    login_via_session = True
-                    print(f"{Fore.GREEN}New session saved to {session_file}")
-        except Exception as e:
-            logger.info("Couldn't login using session information: %s" % e)
+                login_via_session = True
+            except Exception as e:
+                logger.info("Couldn't login user using session information: %s" % e)
 
-    if not login_via_session:
-        try:
-            logger.info("Attempting to login via username and password.")
-            if cl.login(config.username, config.password):
-                login_via_pw = True
-        except Exception as e:
-            logger.info("Couldn't login using username and password: %s" % e)
+        if not login_via_session:
+            try:
+                logger.info(f"Attempting to login via username and password. username: {config.username}")
+                if cl.login(config.username, config.password):
+                    login_via_pw = True
+            except Exception as e:
+                logger.info(f"Couldn't login user using username and password: {e}")
 
-    if not login_via_pw and not login_via_session:
-        raise Exception("Couldn't login with either password or session")
+        if not login_via_pw and not login_via_session:
+            raise Exception("Couldn't login user with either password or session")
 
-    # Save session for future use
-    cl.dump_settings(session_file)
+        # Save the session
+        cl.dump_settings("session.json")
+        return cl
+
+    except Exception as e:
+        print(f"Error logging in: {e}")
+        exit()
 
 # Display a loading message when starting the bot (Blue)
 print(f"{Fore.BLUE}Loading Instagram Bot...")
-print(f"{Fore.YELLOW}Now Running Version 0.733V")
-print(f"{Fore.CYAN}TCGDOVES VERSION")
+print(f"{Fore.YELLOW}Now Running Version 0.55V")
+print(f"{Fore.CYAN}TCG DOVES VERSION")
 
 # Display the welcome message with the username from config (Blue)
-print(f"{Fore.CYAN}Welcome! {Fore.WHITE}{config.username}")
+print(f"{Fore.BLUE}Welcome! {Fore.WHITE}{config.username}")
 
-try:
-    login_user()
-    # Login successful message (Green)
-    print(f"{Fore.GREEN}Login successful!")
-except Exception as e:
-    print(f"Login failed: {e}")
-    input("Press Enter to exit...")  # Prevents the script from closing immediately
-    exit()
+# Log in using the function
+cl = login_user()
 
 class LikePost:
     def __init__(self, client):
@@ -82,32 +80,41 @@ class LikePost:
             "PokemonTCG", "PokemonCards", "PokemonCollector", "Charizard", "RarePokemonCards",
             "ShinyPokemon", "GradedPokemon", "PokemonHobby", "PokemonCommunity", "PokemonPulls",
             "PSAPokemon", "PokemonCardHunting", "VintagePokemon", "PokemonInvesting",
-            "PokemonPocket", "PokemonTCGPocket"
-        ]
+            "PokemonPocket", "PokemonTCGPocket"]
         self.liked_medias = []
         self.elapsed_time = 0
 
     def wait_time(self, delay):
+        # Countdown timer that updates on the same line
         for i in range(delay, 0, -1):
             print(f"{Fore.YELLOW}Waiting... {i}s", end="\r")
             time.sleep(1)
-        print(f"{Fore.GREEN}Waiting complete!              ")
+        print(f"{Fore.GREEN}Waiting complete!              ")  # Clear the line
 
     def wait_for_api(self, delay):
+        # Countdown timer for API rate limit delay when fetching posts from followed users
         for i in range(delay, 0, -1):
-            print(f"{Fore.YELLOW}Searching for posts for {i}s...", end="\r")
+            print(f"{Fore.YELLOW}Searching for posts... {i}s", end="\r")
             time.sleep(1)
-        print(f"{Fore.GREEN}Search delay complete!              ")
+        print(f"{Fore.GREEN}Search delay complete!              ")  # Clear the line
 
     def get_post_id_from_following(self):
         try:
-            following = self.cl.user_following_v1(self.cl.user_id)
-            random_user_id = random.choice(following).pk
+            # Use the new method for fetching following users
+            following = self.cl.user_following_v1(self.cl.user_id)  # Use user_following_v1
+            
+            # Select a random followed user
+            random_user_id = random.choice(following).pk  # Ensure we use the correct object to get user ID
             print(f"{Fore.YELLOW}Searching for posts from followed user...")
-            self.wait_for_api(random.randint(20, 30))
-            user_posts = self.cl.user_medias(random_user_id, amount=1)
+
+            # Delay before attempting to fetch posts to avoid spamming the API
+            self.wait_for_api(random.randint(10, 30))  # Adjust the delay as needed (30 to 60 seconds)
+
+            # Get the media from that followed user
+            user_posts = self.cl.user_medias(random_user_id, amount=1)  # Fetch 1 post from the followed user
+
             if user_posts:
-                media_dict = user_posts[0].model_dump()
+                media_dict = user_posts[0].model_dump()  # Get media info
                 print(f"{Fore.GREEN}Post Found from followed user!")
                 return str(media_dict['id'])
             else:
@@ -119,8 +126,7 @@ class LikePost:
 
     def get_post_id_from_hashtags(self):
         try:
-            print(f"{Fore.YELLOW}Simulating scrolling before searching for a post via hashtags...")
-            time.sleep(random.randint(5, 10))
+            # Display message when searching for a post via hashtags
             print(f"{Fore.YELLOW}Searching for a post via hashtags...")
             medias = self.cl.hashtag_medias_recent(random.choice(self.tags), amount=1)
             if medias:
@@ -131,18 +137,13 @@ class LikePost:
                 print("No media found, retrying...")
                 return None
         except Exception as e:
-            if "login_required" in str(e):
-                print(f"{Fore.RED}Session expired, re-logging in after 60 seconds...")
-                time.sleep(60)
-                login_user()
-                print(f"{Fore.GREEN}Re-login successful!")
-                return self.get_post_id_from_hashtags()
             print(f"Error fetching post via hashtags: {e}")
             return None
 
     def like_post(self, amount):
         for _ in range(amount):
-            if random.random() < 0.1:
+            # 70% chance to get a post from followed users, 30% chance from hashtags
+            if random.random() < 0.7:
                 random_post = self.get_post_id_from_following()
             else:
                 random_post = self.get_post_id_from_hashtags()
@@ -151,7 +152,7 @@ class LikePost:
                 try:
                     self.cl.media_like(media_id=random_post)
                     self.liked_medias.append(random_post)
-                    random_delay = random.randint(30, 120)
+                    random_delay = random.randint(20, 60)  # Adjust delay if needed
                     self.elapsed_time += random_delay
                     print(f"Liked {len(self.liked_medias)} posts, time elapsed {self.elapsed_time / 60:.2f} minutes, now waiting {random_delay} seconds")
                     self.wait_time(random_delay)
@@ -160,39 +161,9 @@ class LikePost:
             else:
                 print("Skipping duplicate or invalid post.")
 
-    def view_random_stories(self):
-        try:
-            following = self.cl.user_following_v1(self.cl.user_id)
-            random_user_id = random.choice(following).pk
-            stories = self.cl.user_stories(random_user_id, amount=random.randint(1, 3))
-            if stories:
-                story_pks = [story.id for story in stories]
-                self.cl.story_seen(story_pks, skipped_story_pks=[])
-                if random.random() < 0.2:
-                    self.cl.story_like(story_pks[0])
-                print(f"{Fore.GREEN}Viewed {len(stories)} stories and liked one!")
-            else:
-                print("No stories available to view.")
-        except Exception as e:
-            print(f"Error viewing stories: {e}")
-
 try:
     start = LikePost(cl)
-    # Viewing stories
-    for _ in range(10):  # Adjust frequency of story views
-        start.view_random_stories()
-        print(f"{Fore.YELLOW}Waiting for next story view...")
-        for i in range(random.randint(60, 180), 0, -1):
-            print(f"{Fore.YELLOW}Waiting... {i}s", end="\r")
-            time.sleep(1)
-
-    # Liking posts
-    print(f"{Fore.YELLOW}Liking posts...")
-    start.like_post(60)  # Like a smaller batch of posts (or adjust as needed)
-    for i in range(random.randint(60, 180), 0, -1):
-        print(f"{Fore.YELLOW}Waiting for next like... {i}s", end="\r")
-        time.sleep(1)
-
+    start.like_post(600)
 except Exception as e:
     print(f"Fatal error: {e}")
-    input("Press Enter to exit...")  # Prevents the script from closing immediately
+    input("Press Enter to exit...")  # Keeps the window open after an error
