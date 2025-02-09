@@ -1,5 +1,6 @@
 import random
 import time
+import os
 from instagrapi import Client
 import config
 from colorama import Fore, init
@@ -14,64 +15,52 @@ logger = logging.getLogger()
 
 def login_user():
     """
-    Attempts to login to Instagram using either the provided session information
-    or the provided username and password.
+    Logs in to Instagram, creating a session if it doesn't exist or is invalid.
     """
     cl = Client()
-    try:
-        session = cl.load_settings("session.json")
-        login_via_session = False
-        login_via_pw = False
+    session_file = "session.json"
+    login_via_session = False
+    login_via_pw = False
 
-        if session:
+    if os.path.exists(session_file):
+        try:
+            cl.load_settings(session_file)
+            cl.login(config.username, config.password)
+
+            # Check if the session is still valid
             try:
-                cl.set_settings(session)
-                cl.login(config.username, config.password)
-
-                # Check if session is valid
-                try:
-                    cl.get_timeline_feed()
-                    logger.info(f"Session loaded successfully for {config.username}")
-                    print(f"{Fore.GREEN}Login successful using session!")
-                except LoginRequired:
-                    logger.info("Session is invalid, need to login via username and password")
-
-                    old_session = cl.get_settings()
-                    cl.set_settings({})
-                    cl.set_uuids(old_session["uuids"])
-
-                    cl.login(config.username, config.password)
-                    print(f"{Fore.GREEN}Login successful using username and password!")
+                cl.get_timeline_feed()
+                print(f"{Fore.GREEN}Login successful using session!")
                 login_via_session = True
-            except Exception as e:
-                logger.info("Couldn't login user using session information: %s" % e)
+            except LoginRequired:
+                print(f"{Fore.YELLOW}Session expired. Logging in with username and password...")
+                cl.set_settings({})
+                cl.login(config.username, config.password)
+                print(f"{Fore.GREEN}Login successful using username and password!")
+        except Exception as e:
+            print(f"{Fore.RED}Error loading session: {e}")
 
-        if not login_via_session:
-            try:
-                logger.info(f"Attempting to login via username and password. username: {config.username}")
-                if cl.login(config.username, config.password):
-                    login_via_pw = True
-                    print(f"{Fore.GREEN}Login successful using username and password!")
-            except Exception as e:
-                logger.info(f"Couldn't login user using username and password: {e}")
+    if not login_via_session:
+        try:
+            print(f"{Fore.YELLOW}No valid session found. Logging in with username and password...")
+            cl.login(config.username, config.password)
+            print(f"{Fore.GREEN}Login successful using username and password!")
+            login_via_pw = True
+        except Exception as e:
+            print(f"{Fore.RED}Couldn't login user using username and password: {e}")
 
-        if not login_via_pw and not login_via_session:
-            raise Exception("Couldn't login user with either password or session")
+    if not login_via_pw and not login_via_session:
+        raise Exception("Couldn't log in with either session or password.")
 
-        # Save the session
-        cl.dump_settings("session.json")
-        return cl
+    # Save the new session
+    cl.dump_settings(session_file)
+    print(f"{Fore.CYAN}Session saved successfully!")
+    return cl
 
-    except Exception as e:
-        print(f"Error logging in: {e}")
-        exit()
-
-# Display a loading message when starting the bot (Blue)
+# Display a loading message when starting the bot
 print(f"{Fore.BLUE}Loading Instagram Bot...")
-print(f"{Fore.YELLOW}Now Running Version 0.57V")
-print(f"{Fore.CYAN}TCG DOVES VERSION")
-
-# Display the welcome message with the username from config (Blue)
+print(f"{Fore.YELLOW}Now Running Version 0.577V")
+print(f"{Fore.RED}TCG DOVES VERSION")
 print(f"{Fore.BLUE}Welcome! {Fore.WHITE}{config.username}")
 
 # Log in using the function
@@ -147,7 +136,7 @@ class LikePost:
     def like_post(self, amount):
         for _ in range(amount):
             # 70% chance to get a post from followed users, 30% chance from hashtags
-            if random.random() < 0.2:
+            if random.random() < 0.7:
                 random_post = self.get_post_id_from_following()
             else:
                 random_post = self.get_post_id_from_hashtags()
@@ -156,7 +145,7 @@ class LikePost:
                 try:
                     self.cl.media_like(media_id=random_post)
                     self.liked_medias.append(random_post)
-                    random_delay = random.randint(30, 260)  # Adjust delay if needed
+                    random_delay = random.randint(20, 60)  # Adjust delay if needed
                     self.elapsed_time += random_delay
                     print(f"Liked {len(self.liked_medias)} posts, time elapsed {self.elapsed_time / 60:.2f} minutes, now waiting {random_delay} seconds")
                     self.wait_time(random_delay)
