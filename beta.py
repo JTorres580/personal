@@ -56,7 +56,11 @@ cl = login_user()
 class LikePost:
     def __init__(self, client):
         self.cl = client
-        self.tags = ['pokemon', 'toys', 'gaming', 'programming']
+        self.tags = [
+            "PokemonTCG", "PokemonCards", "PokemonCollector", "Charizard", "RarePokemonCards",
+            "ShinyPokemon", "GradedPokemon", "PokemonHobby", "PokemonCommunity", "PokemonPulls",
+            "PSAPokemon", "PokemonCardHunting", "VintagePokemon", "PokemonInvesting",
+            "PokemonPocket", "PokemonTCGPocket"]
         self.liked_medias = []
         self.followed_users = []
         self.elapsed_time = 0
@@ -98,10 +102,10 @@ class LikePost:
 
     def like_post(self, amount):
         for _ in range(amount):
-            if random.random() < 0.5:  # 70% chance from following
+            if random.random() < 0.5:  # 50% chance from following
                 random_post = self.get_post_id_from_following()
                 post_user_id = None  # No user to follow in this case
-            else:  # 30% chance from hashtags
+            else:  # 50% chance from hashtags
                 random_post, post_user_id = self.get_post_id_from_hashtags()
 
             if random_post and random_post not in self.liked_medias:
@@ -115,7 +119,7 @@ class LikePost:
                     self.wait_time(like_cooldown, f"Cooldown for liking {like_cooldown}s")
 
                     # 10% chance to follow user from hashtag post
-                    if post_user_id and random.random() < 0.9:
+                    if post_user_id and random.random() < 0.1:
                         if post_user_id not in self.followed_users:  # Prevent following the same user
                             self.cl.user_follow(post_user_id)
                             user_info = self.cl.user_info(post_user_id)
