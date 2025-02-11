@@ -19,38 +19,50 @@ print(f"{Fore.GREEN}TESTING VERSION")
 print(f"{Fore.BLUE}Welcome! {Fore.WHITE}{config.username}")
 
 logger = logging.getLogger()
-SESSION_FILE = "session.json"
 
 def login_user():
     """
-    Manages Instagram login using a session file or credentials with a custom User-Agent.
+    Logs in to Instagram, creating a session if it doesn't exist or is invalid.
     """
     cl = Client()
-    
-    # Set a custom User-Agent to mimic an iPhone device
-    #cl.set_user_agent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
-    
-    if os.path.exists(SESSION_FILE):
-        try:
-            cl.load_settings(SESSION_FILE)
-            cl.login(config.username, config.password)
-            cl.get_timeline_feed()  # Validate session
-            print(f"{Fore.GREEN}Login successful using session!")
-            return cl
-        except (LoginRequired, Exception) as e:
-            print(f"{Fore.YELLOW}Session expired, logging in again...")
-    
-    # New login and session save
-    try:
-        cl.login(config.username, config.password)
-        cl.dump_settings(SESSION_FILE)
-        print(f"{Fore.GREEN}Login successful and session saved!")
-        return cl
-    except Exception as e:
-        print(f"{Fore.RED}Login failed: {e}")
-        input("Press Enter to exit...")
-        exit()
+    session_file = "session.json"
+    login_via_session = False
+    login_via_pw = False
 
+    if os.path.exists(session_file):
+        try:
+            cl.load_settings(session_file)
+            cl.login(config.username, config.password)
+
+            # Check if the session is still valid
+            try:
+                cl.get_timeline_feed()
+                print(f"{Fore.GREEN}Login successful using session!")
+                login_via_session = True
+            except LoginRequired:
+                print(f"{Fore.YELLOW}Session expired. Logging in with username and password...")
+                cl.set_settings({})
+                cl.login(config.username, config.password)
+                print(f"{Fore.GREEN}Login successful using username and password!")
+        except Exception as e:
+            print(f"{Fore.RED}Error loading session: {e}")
+
+    if not login_via_session:
+        try:
+            print(f"{Fore.YELLOW}No valid session found. Logging in with username and password...")
+            cl.login(config.username, config.password)
+            print(f"{Fore.GREEN}Login successful using username and password!")
+            login_via_pw = True
+        except Exception as e:
+            print(f"{Fore.RED}Couldn't login user using username and password: {e}")
+
+    if not login_via_pw and not login_via_session:
+        raise Exception("Couldn't log in with either session or password.")
+
+    # Save the new session
+    cl.dump_settings(session_file)
+    print(f"{Fore.CYAN}Session saved successfully!")
+    return cl
 cl = login_user()
 
 class LikePost:
