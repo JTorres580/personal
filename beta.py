@@ -12,7 +12,7 @@ init(autoreset=True)
 
 # Display a loading message when starting the bot
 print(f"{Fore.BLUE}Loading Instagram Bot...")
-print(f"{Fore.YELLOW}Now Running Version 0.578V")
+print(f"{Fore.YELLOW}Now Running Version 0.577V")
 print(f"{Fore.GREEN}TESTING VERSION")
 
 # Display the welcome message with the username from config
@@ -28,7 +28,7 @@ def login_user():
     cl = Client()
     
     # Set a custom User-Agent to mimic an iPhone device
-    cl.set_user_agent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
+    #cl.set_user_agent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
     
     if os.path.exists(SESSION_FILE):
         try:
