@@ -12,7 +12,7 @@ init(autoreset=True)
 
 # Display a loading message when starting the bot
 print(f"{Fore.BLUE}Loading Instagram Bot...")
-print(f"{Fore.YELLOW}Now Running Version 0.577V")
+print(f"{Fore.YELLOW}Now Running Version 0.578V")
 print(f"{Fore.GREEN}TESTING VERSION")
 
 # Display the welcome message with the username from config
