@@ -28,7 +28,7 @@ def login_user():
     cl = Client()
     
     # Set a custom User-Agent to mimic an iPhone device
-    cl.set_user_agent("Mozilla/5.0 (iPhone; CPU iPhone OS 14_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1")
+    cl.set_user_agent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
     
     if os.path.exists(SESSION_FILE):
         try:
