@@ -16,7 +16,7 @@ getgenv().petsGoConfig = {
     DISCORD_ID = "278707419536687105",  -- Required!!! (For public-webhook)
     WEBHOOK_ODDS = 100000000, -- Minimum Pet Odds To Trigger Webhook
 
-    DIAMOND_EGG = false,  -- true = Diamond Egg, false = F2P Egg
+    DIAMOND_EGG = true,  -- true = Diamond Egg, false = F2P Egg
     MINE_ALL_ORES = true,  -- true = all ore, false = runic & event ore
     
     -- Allowed enchant keywords : Criticals, Loot, Speed, Strength, Chests, Diamonds, Huges, Lightning, TNT
@@ -26,7 +26,7 @@ getgenv().petsGoConfig = {
     MAIL_FISHING_ROD = false,  -- true = mail, false = keep fishing rod on account (FASTER Fishing)
     MAIL_WEBHOOK_ODDS = 1000000000, -- Minimum Pet Odds To Trigger MAIL Webhook
     MAIL_PET_ODDS = 1000000000,  -- Minimum Pet Odds To Mail
-    MAIL_GEMS_MIN = 25000,  -- Minimum Gems to mail out
+    MAIL_GEMS_MIN = 250000,  -- Minimum Gems to mail out
 
     MIN_MAIL_AMOUNT = {  -- Rare items not listed, default min 1
       -- General
